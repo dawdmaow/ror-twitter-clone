@@ -2,7 +2,6 @@
 # development, test). The code here should be idempotent so that it can be executed at any point in every environment.
 # The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
 
-# Create exactly 3 users
 user1 = User.find_or_create_by!(username: 'nature_lover') do |user|
   user.email = 'sarah@example.com'
   user.display_name = 'Sarah Green'
@@ -14,7 +13,6 @@ end
 user2 = User.find_or_create_by!(username: 'coffee_addict') do |user|
   user.email = 'mike@example.com'
   user.display_name = 'Mike Rodriguez'
-  # No avatar for this user
   user.password = 'password123'
   user.password_confirmation = 'password123'
 end
@@ -27,7 +25,6 @@ user3 = User.find_or_create_by!(username: 'cat_person') do |user|
   user.password_confirmation = 'password123'
 end
 
-# Create exactly 3 tweets for each user (9 total tweets) with randomized timestamps
 tweet1 = Tweet.find_or_create_by!(content: 'Nature is healing 🌿 Saw a family of deer in my backyard this morning. They just stood there eating my flowers like they own the place. I love it.', user: user1) do |tweet|
   tweet.media_url = 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&h=400&fit=crop'
   tweet.created_at = 2.days.ago + rand(0..23).hours + rand(0..59).minutes
@@ -78,8 +75,6 @@ tweet9 = Tweet.find_or_create_by!(content: 'Cats are the ultimate chaos agents a
   tweet.updated_at = tweet.created_at
 end
 
-# Create exactly 3 replies from each user (9 total replies) with randomized timestamps
-# User 1 (Sarah) replies
 reply1 = Tweet.find_or_create_by!(content: 'This is the most wholesome thing I\'ve read today. Nature really is healing! 🌱', user: user1, parent_tweet: tweet2) do |tweet|
   tweet.created_at = tweet2.created_at + rand(5..30).minutes
   tweet.updated_at = tweet.created_at
@@ -95,7 +90,6 @@ reply3 = Tweet.find_or_create_by!(content: 'She\'s just asserting her dominance.
   tweet.updated_at = tweet.created_at
 end
 
-# User 2 (Mike) replies
 reply4 = Tweet.find_or_create_by!(content: 'I feel this on a spiritual level. Coffee is life.', user: user2, parent_tweet: tweet1) do |tweet|
   tweet.created_at = tweet1.created_at + rand(15..90).minutes
   tweet.updated_at = tweet.created_at
@@ -111,7 +105,6 @@ reply6 = Tweet.find_or_create_by!(content: 'Third cup? Those are rookie numbers.
   tweet.updated_at = tweet.created_at
 end
 
-# User 3 (Lisa) replies
 reply7 = Tweet.find_or_create_by!(content: 'The deer are probably like "thanks for the free buffet, human" 😂', user: user3, parent_tweet: tweet1) do |tweet|
   tweet.created_at = tweet1.created_at + rand(30..180).minutes
   tweet.updated_at = tweet.created_at
@@ -133,39 +126,24 @@ reply_to_reply = Tweet.find_or_create_by!(content: 'Exactly! They have no shame 
   tweet.updated_at = tweet.created_at
 end
 
-# Create realistic likes distribution (some tweets get multiple likes, some get none)
-# Popular tweets get multiple likes
-Like.find_or_create_by!(user: user1, tweet: tweet1)  # Nature tweet - popular
-Like.find_or_create_by!(user: user2, tweet: tweet1)  # Nature tweet - popular
-Like.find_or_create_by!(user: user3, tweet: tweet1)  # Nature tweet - popular
+Like.find_or_create_by!(user: user1, tweet: tweet1)  
+Like.find_or_create_by!(user: user2, tweet: tweet1)  
+Like.find_or_create_by!(user: user3, tweet: tweet1)  
 
-Like.find_or_create_by!(user: user1, tweet: tweet3)  # Cat tweet - popular
-Like.find_or_create_by!(user: user2, tweet: tweet3)  # Cat tweet - popular
+Like.find_or_create_by!(user: user1, tweet: tweet3)  
+Like.find_or_create_by!(user: user2, tweet: tweet3)  
 
-Like.find_or_create_by!(user: user2, tweet: tweet5)  # Coffee art tweet
-Like.find_or_create_by!(user: user3, tweet: tweet5)  # Coffee art tweet
+Like.find_or_create_by!(user: user2, tweet: tweet5)  
+Like.find_or_create_by!(user: user3, tweet: tweet5)  
 
-Like.find_or_create_by!(user: user1, tweet: tweet6)  # Cat door tweet
-Like.find_or_create_by!(user: user2, tweet: tweet6)  # Cat door tweet
+Like.find_or_create_by!(user: user1, tweet: tweet6)  
+Like.find_or_create_by!(user: user2, tweet: tweet6)  
 
-# Some tweets get no likes (realistic)
-# tweet2, tweet4, tweet7, tweet8, tweet9 get no likes
+Share.find_or_create_by!(user: user2, tweet: tweet1)  
+Share.find_or_create_by!(user: user3, tweet: tweet1)  
 
-# Create realistic shares distribution (shares are rarer than likes)
-# Only the most popular tweets get shared
-Share.find_or_create_by!(user: user2, tweet: tweet1)  # Nature tweet - very popular
-Share.find_or_create_by!(user: user3, tweet: tweet1)  # Nature tweet - very popular
+Share.find_or_create_by!(user: user1, tweet: tweet3)  
 
-Share.find_or_create_by!(user: user1, tweet: tweet3)  # Cat tweet - popular
+Share.find_or_create_by!(user: user3, tweet: tweet5)  
 
-Share.find_or_create_by!(user: user3, tweet: tweet5)  # Coffee art tweet
-
-# Most tweets get no shares (realistic)
-# tweet2, tweet4, tweet6, tweet7, tweet8, tweet9 get no shares
-
-# Add a like to the reply-to-reply
 Like.find_or_create_by!(user: user3, tweet: reply_to_reply)
-
-puts "Seed data created successfully!"
-puts "Created #{User.count} users and #{Tweet.count} tweets"
-puts "Each user has 3 tweets and 3 replies, with realistic like/share distribution!"
