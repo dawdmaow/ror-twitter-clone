@@ -1,0 +1,19 @@
+current directory: /Users/dawid/Desktop/ruby_twitter/vendor/bundle/ruby/3.4.0/gems/stringio-3.1.7/ext/stringio
+/opt/homebrew/opt/ruby/bin/ruby extconf.rb
+checking for rb_io_mode_t in ruby/io.h... no
+creating Makefile
+
+current directory: /Users/dawid/Desktop/ruby_twitter/vendor/bundle/ruby/3.4.0/gems/stringio-3.1.7/ext/stringio
+make DESTDIR\= sitearchdir\=./.gem.20250725-63993-y4zo3v sitelibdir\=./.gem.20250725-63993-y4zo3v clean
+
+current directory: /Users/dawid/Desktop/ruby_twitter/vendor/bundle/ruby/3.4.0/gems/stringio-3.1.7/ext/stringio
+make DESTDIR\= sitearchdir\=./.gem.20250725-63993-y4zo3v sitelibdir\=./.gem.20250725-63993-y4zo3v
+compiling stringio.c
+linking shared-object stringio.bundle
+
+current directory: /Users/dawid/Desktop/ruby_twitter/vendor/bundle/ruby/3.4.0/gems/stringio-3.1.7/ext/stringio
+make DESTDIR\= sitearchdir\=./.gem.20250725-63993-y4zo3v sitelibdir\=./.gem.20250725-63993-y4zo3v install
+/usr/bin/install -c -m 0755 stringio.bundle ./.gem.20250725-63993-y4zo3v
+
+current directory: /Users/dawid/Desktop/ruby_twitter/vendor/bundle/ruby/3.4.0/gems/stringio-3.1.7/ext/stringio
+make DESTDIR\= sitearchdir\=./.gem.20250725-63993-y4zo3v sitelibdir\=./.gem.20250725-63993-y4zo3v clean

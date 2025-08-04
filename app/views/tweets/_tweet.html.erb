@@ -1,0 +1,50 @@
+<%= link_to tweet_path(tweet), class: "block" do %>
+  <div class="bg-gray-800 rounded-lg shadow-lg p-4 border border-gray-700 hover:bg-gray-750 transition-colors <%= 'ml-8' if local_assigns[:is_reply] %>">
+    <div class="flex items-start space-x-3">
+      <%= link_to user_path(tweet.user), class: "#{local_assigns[:is_reply] ? 'w-10 h-10' : 'w-12 h-12'} bg-gray-600 rounded-full flex items-center justify-center flex-shrink-0 hover:bg-gray-500 transition-colors" do %>
+        <% if tweet.user.avatar.present? %>
+          <%= image_tag tweet.user.avatar, class: "#{local_assigns[:is_reply] ? 'w-10 h-10' : 'w-12 h-12'} rounded-full object-cover" %>
+        <% else %>
+          <span class="text-gray-300 font-semibold <%= local_assigns[:is_reply] ? '' : 'text-lg' %>">
+            <%= tweet.user.display_name&.first&.upcase || tweet.user.username&.first&.upcase || "U" %>
+          </span>
+        <% end %>
+      <% end %>
+      
+      <div class="flex-1 min-w-0">
+        <div class="flex items-center space-x-2 mb-1">
+          <%= link_to user_path(tweet.user), class: "font-semibold text-white hover:text-blue-400 transition-colors" do %>
+            <%= tweet.user.display_name %>
+          <% end %>
+          <span class="text-gray-400">@<%= tweet.user.username %></span>
+          <span class="text-gray-500 text-sm"><%= time_ago_in_words(tweet.created_at) %> ago</span>
+        </div>
+        
+        <!-- Show who this reply is replying to -->
+        <% if tweet.parent_tweet.present? %>
+          <div class="text-gray-400 text-sm mb-2">
+            Replying to <%= link_to "@#{tweet.parent_tweet.user.username}", user_path(tweet.parent_tweet.user), class: "text-blue-400 hover:text-blue-300 transition-colors" %>
+          </div>
+        <% end %>
+        
+        <div class="text-white mb-3">
+          <%= simple_format(tweet.content) %>
+        </div>
+        
+        <% if tweet.media_url.present? %>
+          <div class="mb-3">
+            <% if local_assigns[:is_reply] %>
+              <a href="<%= tweet.media_url %>" target="_blank" class="text-blue-400 hover:text-blue-300 underline">
+                <%= tweet.media_url %>
+              </a>
+            <% else %>
+              <%= image_tag tweet.media_url, class: "rounded-lg max-w-full h-auto max-h-96 object-cover", alt: "Tweet media" %>
+            <% end %>
+          </div>
+        <% end %>
+        
+        <%= render 'tweets/interaction_buttons', tweet: tweet %>
+      </div>
+    </div>
+  </div>
+<% end %> 

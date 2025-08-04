@@ -1,0 +1,46 @@
+<div class="max-w-2xl mx-auto">
+  <!-- New Reet Form - Only show for logged in users -->
+  <% if logged_in? %>
+    <div class="bg-gray-800 rounded-lg shadow-lg p-4 mb-6 border border-gray-700">
+      <h2 class="text-xl font-semibold mb-4 text-white">What's happening?</h2>
+      <%= form_with model: @tweet, local: true, class: "space-y-4" do |form| %>
+        <div>
+          <%= form.text_area :content, 
+              placeholder: "What's happening?", 
+              class: "w-full p-3 bg-gray-700 border border-gray-600 rounded-lg resize-none text-white placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent",
+              rows: 3 %>
+        </div>
+        <div>
+          <%= form.text_field :media_url, 
+              placeholder: "Media URL (optional)", 
+              class: "w-full p-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent" %>
+        </div>
+        <div class="flex justify-end">
+          <%= form.submit "Reet", 
+              class: "bg-blue-500 text-white px-6 py-2 rounded-full font-semibold hover:bg-blue-600 transition-colors" %>
+        </div>
+      <% end %>
+    </div>
+  <% else %>
+    <!-- Sign up prompt for non-logged users -->
+    <div class="bg-gray-800 rounded-lg shadow-lg p-6 mb-6 border border-gray-700 text-center">
+      <h2 class="text-xl font-semibold mb-4 text-white">Join Ritter</h2>
+      <p class="text-gray-400 mb-4">Sign up to start sharing your thoughts with the world!</p>
+      <%= link_to "Sign Up", new_user_path, 
+          class: "bg-blue-500 text-white px-6 py-3 rounded-full font-semibold hover:bg-blue-600 transition-colors inline-block" %>
+    </div>
+  <% end %>
+
+  <!-- Reets Feed -->
+  <div class="space-y-4">
+    <% @tweets.each do |tweet| %>
+      <%= render 'tweets/tweet', tweet: tweet %>
+    <% end %>
+    
+    <% if @tweets.empty? %>
+      <div class="text-center text-gray-400 py-8">
+        <p>No reets yet. Be the first to post!</p>
+      </div>
+    <% end %>
+  </div>
+</div>
